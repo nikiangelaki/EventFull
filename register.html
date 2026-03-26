@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="el">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Εγγραφή Χρήστη</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   
+    <header> 
+        <h1>EventFull</h1>
+    </header>
+    <main>
+        <h2>Εγγραφή Νέου Χρήστη</h2>
+        <form action="/register" method="post"> <div>
+            <label for="username">Όνομα Χρήστη:</label>
+            <input type="text" id="username" name="username" placeholder="π.χ. Mpampis99" required>
+        </div>
+        <div>
+            <label for = "code">Κωδικός Χρήστη:  </label>
+            <input type="password" id="code" name="code" minlength="8" 
+            placeholder="π.χ. Oraia_efarmogi!99" required>
+        </div>
+        <div>
+            <label for="confirm-password">Επιβεβαίωση Κωδικού:</label>
+            <input type="password" id="confirm-password" name="confirm_password" required>
+        </div>
+        <div>
+            <label for = "name">Όνομα:  </label>
+            <input type="text" id="name" name="name"  required>
+        </div>
+        <div>
+            <label for = "lastname">Επώνυμο:  </label>
+            <input type="text" id="lastname" name="lastname"  required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"  required>
+        </div>
+        <div>
+            <label for = "telephone">Τηλέφωνο Επικοινωνίας:  </label>
+            <input type="tel" id="telephone" name="telephone"  required>
+        </div>
+        <div>
+            <label for = "address">Διεύθυνση:  </label>
+            <input type="text" id="address" name="address"  required>
+        </div>
+        <div>
+            <p>Εντοπισμός Τοποθεσίας:</p>
+            <button type="button">Επιλογή θέσης στο χάρτη</button>
+        </div>
+        <div>
+            <label for = "afm">ΑΦΜ:  </label>
+            <input type="text" id="afm" name="afm" minlength="9" maxlength="9" 
+            pattern="[0-9]{9}" required>
+        </div>
+        <fieldset>
+            <legend>Εγγράφεστε ως:</legend>
+            
+            <input type="radio" id="organizer" name="role" value="organizer" checked>
+            <label for="organizer">Διοργανωτής</label>
+            
+            <input type="radio" id="attendee" name="role" value="attendee">
+            <label for="attendee">Συμμετέχων</label>
+        </fieldset>
+
+        <div>
+            <input type="submit" value="Εγγραφή">
+        </div>
+        
+
+
+
+            </form>
+    </main>
+</body>
+</html>

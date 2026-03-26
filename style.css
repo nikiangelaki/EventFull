@@ -1,0 +1,138 @@
+/* Ρυθμίσεις για όλη τη σελίδα [cite: 530-533, 841-842] */
+* {
+    box-sizing: border-box; /* Σωστός υπολογισμός διαστάσεων [cite: 841-842] */
+}
+
+body {
+    font-family: Arial, sans-serif; /* [cite: 312, 578] */
+    background-color: #f0f2f5;    /* Ελαφρύ γκρι φόντο [cite: 553, 572] */
+    display: flex;                /* Για κεντράρισμα [cite: 1224] */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;      /* Οριζόντιο κεντράρισμα [cite: 1228] */
+    padding: 40px;
+    margin: 0;
+}
+header {
+    margin-bottom: 20px;
+}
+
+/*index*/
+
+/* Στυλ για τα κουμπιά στη Welcome Page */
+.btn {
+    display: inline-block;
+    background-color: #007bff; /* Μπλε χρώμα */
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;     /* Αφαίρεση υπογράμμισης [cite: 661] */
+    border-radius: 5px;
+    margin: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Πιο σκούρο στο hover [cite: 690] */
+}
+
+.btn-guest {
+    background-color: #6c757d; /* Γκρι για τον επισκέπτη */
+}
+
+.welcome-container {
+    text-align: center;        /* Κεντράρισμα κειμένου [cite: 638] */
+}
+/*register*/
+
+/* Μορφοποίηση του "κουτιού" της φόρμας [cite: 785-786, 833] */
+main {
+    background-color: white;      /* Λευκό φόντο [cite: 837] */
+    padding: 30px;                /* Εσωτερικό κενό [cite: 809] */
+    border-radius: 8px;           /* Στρογγυλεμένες γωνίες */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Σκιά για βάθος [cite: 950] */
+    width: 100%;
+    max-width: 450px;             /* Περιορισμός πλάτους [cite: 1008] */
+}
+
+/* Στοίχιση των πεδίων [cite: 808, 923] */
+form div {
+    margin-bottom: 20px;          /* Απόσταση μεταξύ των inputs [cite: 810] */
+}
+
+label {
+    display: block;               /* Το label πάνω από το input [cite: 982] */
+    margin-bottom: 8px;           /* [cite: 810] */
+    font-weight: bold;            /* [cite: 586] */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"] {
+    width: 100%;                  /* Πλήρες πλάτος [cite: 869] */
+    padding: 10px;                /* [cite: 872] */
+    border: 1px solid #ccc;       /* [cite: 826] */
+    border-radius: 4px;
+}
+
+/* Στυλ για τα κουμπιά υποβολής (Είσοδος & Εγγραφή) */
+input[type="submit"] {
+    background-color: #28a745; /* Εντυπωσιακό πράσινο */
+    color: white;              /* Λευκά γράμματα */
+    padding: 15px 25px;        /* Μεγαλύτερο εσωτερικό κενό για να φαίνεται μεγάλο */
+    font-size: 18px;           /* Πιο μεγάλα γράμματα */
+    font-weight: bold;         /* Έντονη γραμματοσειρά */
+    border: none;              /* Αφαίρεση του κλασικού γκρι πλαισίου */
+    border-radius: 6px;        /* Στρογγυλεμένες γωνίες */
+    cursor: pointer;           /* Το ποντίκι γίνεται "χεράκι" */
+    width: 100%;               /* Να πιάνει όλο το πλάτος του κουτιού */
+    transition: background 0.3s ease; /* Ομαλή αλλαγή στο hover */
+    margin-top: 10px;          /* Απόσταση από το από πάνω πεδίο */
+}
+
+/* Εφέ όταν ακουμπάμε το κουμπί (Hover) */
+input[type="submit"]:hover {
+    background-color: #218838; /* Πιο σκούρο πράσινο */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Λίγη σκιά για να "προεξέχει" */
+}
+
+main h2 {
+    text-align: center;  /* Αυτό κάνει τη "μαγεία" και το πάει στη μέση */
+    margin-bottom: 25px; /* Δίνει απόσταση από τα από κάτω πεδία */
+}
+
+/* Στυλ για τον Πίνακα */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Ενοποίηση περιγραμμάτων */
+    margin-top: 20px;
+    background-color: white;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Zebra Striping: Κάνει τις ζυγές γραμμές ελαφρώς γκρι */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover εφέ στη γραμμή */
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Ειδική ρύθμιση για το Dashboard ώστε να χωράει ο πίνακας */
+.dashboard-container {
+    max-width: 900px; /* Διπλάσιο πλάτος από τη φόρμα εγγραφής */
+    width: 95%;      /* Για να είναι responsive σε μικρές οθόνες */
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="el">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Σύνδεση Χρήστη</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   
+    <header> 
+        <h1>EventFull</h1>
+    </header>
+    <main>
+          
+        <h2>Σύνδεση Χρήστη</h2>
+            <form action="/login" method="post"> <div>
+                    <label for="username">Όνομα Χρήστη:</label>
+                    <input type="text" id="username" name="username"  required>
+                </div>
+                <div>
+                    <label for = "code">Κωδικός Χρήστη:  </label>
+                    <input type="password" id="code" name="code" minlength="8"  required>
+                </div>
+                   
+                <div>
+                    <input type="submit" value="Είσοδος">
+                </div>
+
+            </form>
+    </main>
+</body>
+</html>
