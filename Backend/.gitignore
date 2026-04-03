@@ -1,0 +1,4 @@
+# Περιβάλλοντα (Environments)
+.env
+venv/
+__pycache__/
