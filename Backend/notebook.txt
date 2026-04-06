@@ -1,7 +1,0 @@
-uvicorn app.main:app --reload --ssl-keyfile=key.pem --ssl-certfile=cert.pem # run server with ssl(https)
-
-uvicorn main:app --reload # run server without http
-
-sudo service mysql start # start mysql
-
-sudo service mysql status # status mysql
