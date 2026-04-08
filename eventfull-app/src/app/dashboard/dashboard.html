@@ -1,0 +1,31 @@
+<div class="dashboard-container wide">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+        <h2 style="margin: 0;">Οι Εκδηλώσεις μου</h2>
+        <a routerLink="/create-event" class="btn-new-event">+ Νέα Εκδήλωση</a>
+    </div>
+
+    <div class="table-container" style="width: 100%; overflow-x: auto;">
+        <table style="width: 100%; min-width: 600px; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th>Τίτλος</th>
+                    <th>Ημερομηνία</th>
+                    <th>Τοποθεσία</th>
+                    <th>Κατάσταση</th> 
+                    <th>Ενέργειες</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rock Summer Festival</td>
+                    <td>15/07/2026</td>
+                    <td>Τεχνόπολη, Αθήνα</td>
+                    <td><span class="status active">PUBLISHED</span></td> 
+                    <td>
+                        <a routerLink="/edit-event/1" class="btn-edit">Επεξεργασία</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

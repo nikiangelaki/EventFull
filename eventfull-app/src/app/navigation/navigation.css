@@ -1,0 +1,19 @@
+nav {
+    display: flex;             /* Ενεργοποιούμε το Flexbox */
+    justify-content: center;   /* Κεντράρει τα στοιχεία οριζόντια */
+    gap: 10px;                 /* Δίνει σταθερή απόσταση μεταξύ των links */
+    padding: 10px 0;        /* Λίγος χώρος πάνω-κάτω */
+    background-color: #f8f9fa; /* Ένα πολύ ελαφρύ γκρι για να ξεχωρίζει */
+    border-bottom: 1px solid #eee; /* Μια διακριτική γραμμή από κάτω */
+}
+
+nav a {
+    text-decoration: none;     /* Βγάζει την υπογράμμιση */
+    color: #007bff;            /* Το κλασικό μπλε των links */
+    font-weight: 500;          /* Λίγο πιο έντονα γράμματα */
+}
+
+nav a:hover {
+    text-decoration: underline; /* Υπογράμμιση μόνο όταν ακουμπάει το ποντίκι */
+    color: #0056b3;            /* Πιο σκούρο μπλε στο hover */
+}

@@ -1,0 +1,57 @@
+/* Γενικές ρυθμίσεις */
+* { box-sizing: border-box; }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+}
+
+
+main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Δημιουργεί scrollbar μόνο για τον πίνακα αν στενέψει πολύ η οθόνη */
+    margin-top: 20px;
+    
+}
+/* Ο πίνακας - Απαίτηση 8 */
+table {
+    width: 100% !important; 
+    min-width: 600px;
+    border-collapse: collapse;
+    
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Κουμπιά */
+.btn-new-event {
+    background-color: #007bff;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-edit {
+    color: #dc3545;
+    text-decoration: none;
+    font-weight: bold;
+}

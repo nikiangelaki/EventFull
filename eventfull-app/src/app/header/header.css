@@ -1,0 +1,16 @@
+header {
+    margin-bottom: 20px;
+    text-align: center; 
+   
+}
+
+
+header nav a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
