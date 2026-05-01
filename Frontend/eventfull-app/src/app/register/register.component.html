@@ -1,0 +1,91 @@
+<div class="register-container">
+  <h2>Εγγραφή Νέου Χρήστη</h2>
+  
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Username -->
+    <div class="form-group">
+      <label>Όνομα Χρήστη</label>
+      <input type="text" formControlName="username">
+      <small class="error" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+        Το όνομα χρήστη είναι υποχρεωτικό.
+      </small>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label>Κωδικός Χρήστη</label>
+      <input type="password" formControlName="password">
+      <small class="error" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        Απαιτούνται τουλάχιστον 8 χαρακτήρες.
+      </small>
+    </div>
+
+    <!-- Confirm Password (ΑΥΤΟ ΕΛΕΙΠΕ!) -->
+    <div class="form-group">
+      <label>Επιβεβαίωση Κωδικού</label>
+      <input type="password" formControlName="confirmPassword">
+      <small class="error" *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
+        Παρακαλώ επιβεβαιώστε τον κωδικό σας.
+      </small>
+      <small class="error" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+        Οι κωδικοί δεν ταιριάζουν!
+      </small>
+    </div>
+
+    <!-- Name & Lastname -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Όνομα</label>
+        <input type="text" formControlName="name">
+      </div>
+      <div class="form-group">
+        <label>Επώνυμο</label>
+        <input type="text" formControlName="lastname">
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" formControlName="email">
+      <small class="error" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        Βάλτε ένα έγκυρο email (π.χ. name@gmail.com).
+      </small>
+    </div>
+
+    <!-- Τηλέφωνο -->
+    <div class="form-group">
+      <label>Τηλέφωνο Επικοινωνίας</label>
+      <input type="tel" formControlName="telephone">
+      <small class="error" *ngIf="registerForm.get('telephone')?.invalid && registerForm.get('telephone')?.touched">
+        Επιτρέπονται μόνο αριθμοί.
+      </small>
+    </div>
+
+    <div class="form-group">
+        <label>Διεύθυνση</label>
+        <input type="text" formControlName="address" placeholder="π.χ. Πανεπιστημίου 10">
+    </div>
+
+    <!-- ΑΦΜ -->
+    <div class="form-group">
+      <label>ΑΦΜ (9 ψηφία)</label>
+      <input type="text" formControlName="afm" maxlength="9">
+      <small class="error" *ngIf="registerForm.get('afm')?.invalid && registerForm.get('afm')?.touched">
+        Πρέπει να είναι ακριβώς 9 αριθμοί.
+      </small>
+    </div>
+
+    <!-- Ρόλος -->
+    <div class="form-group">
+      <label>Εγγράφεστε ως:</label>
+      <div class="radio-group">
+        <label><input type="radio" value="organizer" formControlName="role"> Διοργανωτής</label>
+        <label><input type="radio" value="attendee" formControlName="role"> Συμμετέχων</label>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Εγγραφή</button>
+  </form>
+</div>

@@ -1,0 +1,44 @@
+<div class="register-container">
+  <h2>Σύνδεση Χρήστη</h2>
+  
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    
+  
+    <div class="form-group">
+      <label for="username">Όνομα Χρήστη:</label>
+      <input 
+        type="text" 
+        id="username" 
+        formControlName="username" 
+        placeholder="Εισάγετε το όνομα χρήστη">
+      
+      <small class="error" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+        Το όνομα χρήστη είναι υποχρεωτικό.
+      </small>
+    </div>
+
+    
+    <div class="form-group">
+      <label for="password">Κωδικός Χρήστη:</label>
+      <input 
+        type="password" 
+        id="password" 
+        formControlName="password" 
+        placeholder="********">
+      
+      <small class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        Ο κωδικός πρέπει να είναι τουλάχιστον 8 χαρακτήρες.
+      </small>
+    </div>
+
+    
+    <div class="form-group">
+      <button type="submit" [disabled]="loginForm.invalid">Είσοδος</button>
+    </div>
+
+  </form>
+
+  <p style="text-align: center; margin-top: 15px;">
+    Δεν έχετε λογαριασμό; <a routerLink="/register">Εγγραφείτε εδώ</a>
+  </p>
+</div>

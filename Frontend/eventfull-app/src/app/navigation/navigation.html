@@ -1,5 +1,7 @@
 <nav>
-            <a routerLink="/dashboard">Αρχική</a> | 
-            <a routerLink="/search">Αναζήτηση</a> | 
-            <a routerLink="/login">Αποσύνδεση</a>
+  <ul>
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Αρχική</a></li>
+    <li><a routerLink="/login" routerLinkActive="active">Σύνδεση</a></li>
+    <li><a routerLink="/register" routerLinkActive="active">Εγγραφή</a></li>
+  </ul>
 </nav>
