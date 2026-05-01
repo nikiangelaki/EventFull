@@ -21,9 +21,11 @@ class Settings:
     # Μορφή: mysql+pymysql://user:password@host:port/database
     DATABASE_URL: str = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     
-    # Server settings
+    # Server & Security settings
     DEBUG: bool = os.getenv("DEBUG", "False").lower() == "true"
     SECRET_KEY: str = os.getenv("SECRET_KEY", "change-this-secret")
+    # χρόνο λήξης του JWT Token 
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
 
 # Δημιουργία instance
 settings = Settings()

@@ -2,4 +2,6 @@
 .env
 venv/
 __pycache__/
-notebook.tx
+notebook.txt
+cert.pem
+key.pem
