@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   //URL zoubou
-  private apiUrl = 'http://localhost:3000/api'; 
+  private apiUrl = 'https://127.0.0.1:8000'; 
 
   constructor(private http: HttpClient) { }
 

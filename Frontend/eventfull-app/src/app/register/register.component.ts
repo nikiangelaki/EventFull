@@ -40,7 +40,26 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
+      
+      // 1. Παίρνουμε τις τιμές από τη φόρμα
+      const formValues = this.registerForm.value;
+
+      // 2. Φτιάχνουμε το "πακέτο" ακριβώς όπως το περιμένει το FastAPI (UserCreate)
+      const payloadData = {
+        username: formValues.username,
+        email: formValues.email,
+        password: formValues.password,
+        role: formValues.role,
+        first_name: formValues.name,       // Μετάφραση: name -> first_name
+        last_name: formValues.lastname,    // Μετάφραση: lastname -> last_name
+        phone: formValues.telephone,       // Μετάφραση: telephone -> phone
+        address: formValues.address,
+        afm: formValues.afm
+        // Το confirmPassword το αγνοούμε εντελώς εδώ, δεν το στέλνουμε στο backend!
+      };
+
+      // 3. Στέλνουμε το σωστό πακέτο (payloadData) αντί για όλη τη φόρμα
+      this.authService.register(payloadData).subscribe({
         next: (response) => {
           alert('Η εγγραφή ολοκληρώθηκε!');
           console.log(response);
@@ -52,4 +71,5 @@ export class RegisterComponent {
       });
     }
   }
+
 }
