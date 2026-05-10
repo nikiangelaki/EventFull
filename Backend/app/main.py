@@ -6,9 +6,11 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timedelta, timezone
 from app.database import engine, Base, get_db
 from app.config import settings
-from app.models import User
-from app.schemas import UserCreate, Token 
-from app.security import get_password_hash, verify_password, create_access_token
+from app.models import User, Message 
+from app.schemas import UserCreate, Token, MessageCreate, MessageResponse 
+from app.security import get_password_hash, verify_password, create_access_token, get_current_user 
+
+from fastapi import APIRouter, Depends, HTTPException, status
 
 # Δημιουργία όλων των tables στη βάση
 try:
@@ -106,3 +108,47 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
     access_token = create_access_token(data={"sub": user.email})
     
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+
+@app.post("/messages/", response_model=MessageResponse)
+def send_message(
+    message: MessageCreate, 
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user) # Παίρνουμε τον αποστολέα από το Token!
+):
+    # Δημιουργία του νέου μηνύματος
+    new_message = Message(
+        sender_id=current_user.id,
+        receiver_id=message.receiver_id,
+        event_id=message.event_id,
+        content=message.content
+    )
+    
+    db.add(new_message)
+    db.commit()
+    db.refresh(new_message)
+    
+    return new_message
+
+
+@app.get("/messages/{user_id}", response_model=list[MessageResponse])
+def get_conversation(
+    user_id: int, 
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
+    # Φέρνει τα μηνύματα όπου ο current_user είναι είτε αποστολέας είτε παραλήπτης
+    # σε σχέση με τον συγκεκριμένο user_id
+    messages = db.query(Message).filter(
+        (
+            (Message.sender_id == current_user.id) & (Message.receiver_id == user_id)
+        ) | (
+            (Message.sender_id == user_id) & (Message.receiver_id == current_user.id)
+        )
+    ).order_by(Message.timestamp.asc()).all()
+    
+    if not messages:
+        raise HTTPException(status_code=404, detail="Δεν βρέθηκαν μηνύματα.")
+        
+    return messages

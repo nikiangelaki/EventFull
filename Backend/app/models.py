@@ -1,8 +1,11 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Boolean, Table
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Boolean, Table,Text
 from sqlalchemy.orm import relationship
 import datetime
 
-# ΣΗΜΑΝΤΙΚΟ: Παίρνουμε το Base από το database.py μας!
+from sqlalchemy.sql import func
+from app.database import Base
+
+# Παίρνουμε το Base από το database.py μας
 from app.database import Base
 
 # --- ΠΙΝΑΚΑΣ ΣΥΣΧΕΤΙΣΗΣ ΠΟΛΛΑ-ΠΡΟΣ-ΠΟΛΛΑ ---
@@ -106,13 +109,11 @@ class Booking(Base):
 
 # --- 7. ΠΙΝΑΚΑΣ ΜΗΝΥΜΑΤΩΝ ---
 class Message(Base):
-    __tablename__ = 'messages'
+    __tablename__ = "messages"
 
-    id = Column(Integer, primary_key=True)
-    sender_id = Column(Integer, ForeignKey('users.id'))
-    receiver_id = Column(Integer, ForeignKey('users.id'))
-    content = Column(String(1000), nullable=False)
-    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
-    is_read = Column(Boolean, default=False)
-    sender = relationship("User", foreign_keys=[sender_id], back_populates="messages_sent")
-    receiver = relationship("User", foreign_keys=[receiver_id], back_populates="messages_received")
+    id = Column(Integer, primary_key=True, index=True)
+    sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=True) # Προαιρετικό, αν το μήνυμα αφορά συγκεκριμένο event
+    content = Column(Text, nullable=False)
+    timestamp = Column(DateTime(timezone=True), server_default=func.now())
