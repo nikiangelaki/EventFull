@@ -94,18 +94,20 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 @app.post("/login", response_model=Token)
 def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     """
-    Σύνδεση χρήστη. Το form_data.username δέχεται το email.
+    Σύνδεση χρήστη με βάση το Όνομα Χρήστη (username).
     """
-    user = db.query(User).filter(User.email == form_data.username).first()
+    # ΑΛΛΑΓΗ ΕΔΩ: Πλέον ψάχνουμε στη στήλη User.username !
+    user = db.query(User).filter(User.username == form_data.username).first()
     
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Λάθος email ή κωδικός πρόσβασης.",
+            detail="Λάθος όνομα χρήστη ή κωδικός πρόσβασης.",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    access_token = create_access_token(data={"sub": user.email})
+    # Το token το αφήνουμε να φτιάχνεται με το email (ή το id) για να μη χαλάσει η get_current_user
+    access_token = create_access_token(data={"sub": user.email}) 
     
     return {"access_token": access_token, "token_type": "bearer"}
 
