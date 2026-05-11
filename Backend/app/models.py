@@ -35,8 +35,8 @@ class User(Base):
 
     events = relationship("Event", back_populates="organizer")
     bookings = relationship("Booking", back_populates="attendee")
-    messages_sent = relationship("Message", foreign_keys='Message.sender_id', back_populates="sender")
-    messages_received = relationship("Message", foreign_keys='Message.receiver_id', back_populates="receiver")
+    sent_messages = relationship("Message", foreign_keys="Message.sender_id", back_populates="sender")
+    received_messages = relationship("Message", foreign_keys="Message.receiver_id", back_populates="receiver")
 
 # --- 2. ΠΙΝΑΚΑΣ ΚΑΤΗΓΟΡΙΩΝ ---
 class Category(Base):
@@ -114,6 +114,9 @@ class Message(Base):
     id = Column(Integer, primary_key=True, index=True)
     sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    event_id = Column(Integer, ForeignKey("events.id"), nullable=True) # Προαιρετικό, αν το μήνυμα αφορά συγκεκριμένο event
+    event_id = Column(Integer, ForeignKey("events.id"), nullable=True)
     content = Column(Text, nullable=False)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
+
+    sender = relationship("User", foreign_keys=[sender_id], back_populates="sent_messages")
+    receiver = relationship("User", foreign_keys=[receiver_id], back_populates="received_messages")
