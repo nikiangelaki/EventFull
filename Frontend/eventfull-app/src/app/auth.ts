@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  //URL zoubou
-  private apiUrl = 'https://127.0.0.1:8000'; 
+  //URL zoubou 'https://127.0.0.1:8000'; 
+  private apiUrl = 'http://127.0.0.1:8000'; 
 
   constructor(private http: HttpClient) { }
 
