@@ -1,0 +1,114 @@
+/* Φόρτωση του CSS του χάρτη τοπικά και ΜΟΝΟ για αυτή τη σελίδα */
+@import '../../../../node_modules/leaflet/dist/leaflet.css';
+
+.details-page-container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+}
+
+.details-page-container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e1e8ed;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.details-header h2 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 32px;
+}
+
+.badge-category {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Flexbox Layout για τις 2 στήλες */
+.details-content {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.info-column {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.info-card h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.btn-booking {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+    margin-top: 10px;
+}
+
+.btn-booking:hover {
+    background-color: #218838;
+}
+
+/* Η Στήλη του Χάρτη */
+.map-column {
+    flex: 1;
+    min-width: 400px;
+}
+
+.map-column h3 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+/* SOS: Ο χάρτης χρειάζεται οπωσδήποτε σταθερό ύψος */
+#map {
+    height: 450px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+    color: #666;
+}

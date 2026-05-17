@@ -1,0 +1,54 @@
+<main class="dashboard-container wide">
+    
+    <div class="messaging-header">
+        <div class="messaging-title-area">
+            <h2>Τα Μηνύματά μου</h2>
+            <span class="badge-new">1 Νέο</span>
+        </div>
+        <button (click)="openNewMessageModal()" class="btn-new-message">➕ Νέο Μήνυμα</button>
+    </div>
+
+    <div class="folder-switch-area">
+        <button (click)="switchFolder('inbox')" 
+                class="folder-btn"
+                [style.background-color]="currentFolder === 'inbox' ? '#007bff' : '#f8f9fa'" 
+                [style.color]="currentFolder === 'inbox' ? 'white' : '#495057'">📥 Εισερχόμενα</button>
+                
+        <button (click)="switchFolder('sent')" 
+                class="folder-btn"
+                [style.background-color]="currentFolder === 'sent' ? '#007bff' : '#f8f9fa'" 
+                [style.color]="currentFolder === 'sent' ? 'white' : '#495057'">📤 Απεσταλμένα</button>
+    </div>
+    
+    <table class="messaging-table">
+        <thead>
+            <tr>
+                <th style="width: 25%;">{{ currentFolder === 'inbox' ? 'Αποστολέας' : 'Παραλήπτης' }}</th>
+                <th style="width: 45%;">Θέμα / Μήνυμα</th>
+                <th style="width: 15%;">Ημερομηνία</th>
+                <th style="width: 15%; text-align: center;">Ενέργειες</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let msg of getActiveMessages()" 
+                [class.unread-row]="msg.isNew && currentFolder === 'inbox'">
+                
+                <td>
+                    <span *ngIf="msg.isNew && currentFolder === 'inbox'" class="unread-dot">●</span>
+                    <span [style.font-weight]="msg.isNew && currentFolder === 'inbox' ? 'bold' : 'normal'">{{ msg.user }}</span>
+                </td>
+                <td [style.font-weight]="msg.isNew && currentFolder === 'inbox' ? 'bold' : 'normal'">{{ msg.subject }}</td>
+                <td class="text-muted">{{ msg.date }}</td>
+                <td>
+                    <div class="action-buttons-container">
+                        <button (click)="readMessage(msg)" class="btn-action-read">Ανάγνωση</button>
+                        <button (click)="deleteMessage(msg.id)" class="btn-action-delete">Διαγραφή</button>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="getActiveMessages().length === 0" class="empty-state-row">
+                <td colspan="4">Δεν υπάρχουν μηνύματα σε αυτόν τον κατάλογο.</td>
+            </tr>
+        </tbody>
+    </table>
+</main>

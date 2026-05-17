@@ -1,0 +1,48 @@
+/* Κεντράρισμα και διάταξη για το κουτί του Welcome */
+.welcome-container {
+    text-align: center;         /* Κεντράρισμα κειμένου */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Απόσταση για τον τίτλο */
+header {
+    margin-bottom: 20px;
+}
+
+/* Στυλ για τα κουμπιά στη Welcome Page */
+.btn {
+    display: inline-block;
+    background-color: #007bff; /* Μπλε χρώμα */
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;     /* Αφαίρεση υπογράμμισης */
+    border-radius: 5px;
+    margin: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;           /* Το ποντίκι γίνεται "χεράκι" */
+}
+
+/* Εφέ όταν ακουμπάμε το κουμπί (Hover) */
+.btn:hover {
+    background-color: #0056b3; /* Πιο σκούρο στο hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Λίγη σκιά για βάθος */
+}
+
+/* Ειδικό γκρι χρώμα για τον επισκέπτη */
+.btn-guest {
+    background-color: #6c757d; 
+}
+
+/* Εφέ hover για τον επισκέπτη */
+.btn-guest:hover {
+    background-color: #5a6268;
+}
+
+/* Ομαδοποίηση των κουμπιών για να έχουν σωστή απόσταση */
+.button-group {
+    margin-top: 25px;
+}

@@ -1,0 +1,176 @@
+/* Κεντρικό Container της Σελίδας Μηνυμάτων */
+.dashboard-container.wide {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Επικεφαλίδα & Layout Νέου Μηνύματος */
+.messaging-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #f1f3f5;
+    padding-bottom: 15px;
+}
+
+.messaging-title-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.messaging-title-area h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+/* Badge για την ύπαρξη νέων μηνυμάτων (Απαίτηση 10) */
+.badge-new {
+    background-color: #dc3545;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Κουμπί Δημιουργίας Νέου Μηνύματος */
+.btn-new-message {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 4px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-new-message:hover {
+    background-color: #218838;
+}
+
+.btn-new-message:active {
+    transform: scale(0.98);
+}
+
+/* Διακόπτες Καταλόγων: Εισερχόμενα / Απεσταλμένα (Απαίτηση 10) */
+.folder-switch-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.folder-btn {
+    padding: 10px 20px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Πίνακας Μηνυμάτων (Απαίτηση 10) */
+.messaging-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.messaging-table th {
+    padding: 14px 12px;
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.messaging-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #dee2e6;
+    color: #333333;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+/* Hover εφέ στις σειρές του πίνακα */
+.messaging-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Ένδειξη μη αναγνωσμένου μηνύματος */
+.unread-dot {
+    color: #007bff;
+    margin-right: 6px;
+    font-size: 16px;
+}
+
+.unread-row {
+    background-color: #f1f8ff;
+}
+
+.unread-row:hover {
+    background-color: #e6f2ff !important;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+/* Κουμπιά Ενεργειών (Ανάγνωση / Διαγραφή) */
+.action-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-action-read {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+    transition: color 0.15s ease;
+}
+
+.btn-action-read:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Κουμπί Διαγραφής Καταλόγου (Απαίτηση 10) */
+.btn-action-delete {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    font-size: 14px;
+    transition: color 0.15s ease;
+}
+
+.btn-action-delete:hover {
+    color: #bd2130;
+    text-decoration: underline;
+}
+
+/* State για άδεια λίστα μηνυμάτων */
+.empty-state-row td {
+    padding: 30px;
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    background-color: #fafafa;
+}

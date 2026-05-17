@@ -1,0 +1,73 @@
+<div class="dashboard-container wide">
+  <h2>Αναζήτηση Εκδηλώσεων</h2>
+  
+  <div class="search-header flex-column align-items-stretch gap-3" style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
+    
+    <div class="d-flex flex-wrap gap-3 align-items-end">
+      <div class="flex-grow-1">
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Τίτλος / Περιγραφή</label>
+        <div class="search-right w-100" style="display: flex;">
+          <input type="text" [(ngModel)]="filters.searchTerm" placeholder="Αναζήτηση..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px 0 0 5px;">
+          <button class="btn-search-attached" (click)="searchEvents()" style="border-radius: 0 5px 5px 0;">Αναζήτηση</button>
+        </div>
+      </div>
+      
+      <div class="search-left">
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Κατηγορία</label>
+        <select [(ngModel)]="filters.category" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 200px; background: white;">
+          <option value="">Όλες οι κατηγορίες</option>
+          <option value="Music">Μουσική</option>
+          <option value="Tech">Τεχνολογία</option>
+          <option value="Sports">Αθλητισμός</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-3 align-items-end justify-content-between" style="margin-top: 10px;">
+      <div>
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Τοποθεσία / Πόλη</label>
+        <input type="text" [(ngModel)]="filters.location" placeholder="π.χ. Αθήνα" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 180px;">
+      </div>
+
+      <div>
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Από Ημερομηνία</label>
+        <input type="datetime-local" [(ngModel)]="filters.startDate" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
+
+      <div>
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Έως Ημερομηνία</label>
+        <input type="datetime-local" [(ngModel)]="filters.endDate" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
+
+      <div>
+        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Μέγιστη Τιμή (€)</label>
+        <input type="number" [(ngModel)]="filters.maxPrice" placeholder="π.χ. 20" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 120px;">
+      </div>
+    </div>
+  </div>
+
+  <div class="events-grid mt-4" *ngIf="events.length > 0; else noEvents">
+    <div class="event-card" *ngFor="let event of events" style="background: white; border: 1px solid #ddd; border-radius: 12px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+      <div class="card-header" style="display: flex; justify-content: space-between; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 15px;">
+        <span>{{ event.Title }}</span>
+        <span style="color: #007bff;">{{ event.StartDateTime | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="card-category" style="color: #666; margin-bottom: 25px;">Είδος: {{ event.EventType || event.Category }}</div>
+      <button class="btn-new-event" style="text-align: center; display: block; border: none; width: 100%; cursor: pointer;" (click)="viewDetails(event.EventID)">
+        Κράτηση / Λεπτομέρειες
+      </button>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-4 p-3 bg-light rounded" *ngIf="events.length > 0">
+    <button class="btn btn-sm btn-secondary" [disabled]="page === 1" (click)="changePage(page - 1)">« Προηγούμενη</button>
+    <span>Σελίδα <strong>{{ page }}</strong> από {{ totalPages }}</span>
+    <button class="btn btn-sm btn-secondary" [disabled]="page === totalPages" (click)="changePage(page + 1)">Επόμενη »</button>
+  </div>
+
+  <ng-template #noEvents>
+    <div class="alert alert-warning text-center mt-4 shadow-sm" style="padding: 20px; background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; border-radius: 8px;">
+      Δεν βρέθηκαν εκδηλώσεις με τα συγκεκριμένα κριτήρια.
+    </div>
+  </ng-template>
+</div>

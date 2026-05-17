@@ -1,5 +1,7 @@
-<app-header></app-header>
-<app-navigation></app-navigation>
+<div *ngIf="router.url !== '/' && router.url !== ''">
+  <app-header></app-header>
+  <app-navigation></app-navigation>
+</div>
 
 <main class="shell">
   <router-outlet></router-outlet>

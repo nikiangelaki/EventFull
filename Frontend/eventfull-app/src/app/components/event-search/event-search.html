@@ -1,0 +1,79 @@
+<div class="search-page-container">
+  <h2>Αναζήτηση Εκδηλώσεων</h2>
+  
+  <div class="filter-box">
+    
+    <div class="search-row">
+      <div class="input-group-search">
+        <label>Τίτλος / Περιγραφή</label>
+        <div class="search-bar-wrapper">
+          <input type="text" [(ngModel)]="filters.searchTerm" placeholder="Αναζήτηση...">
+          <button class="btn-search-trigger" (click)="searchEvents()">Αναζήτηση</button>
+        </div>
+      </div>
+      
+      <div class="input-group-search">
+        <label>Κατηγορία</label>
+        <select [(ngModel)]="filters.category" class="search-select">
+          <option value="">Όλες οι κατηγορίες</option>
+          <option value="Music">Μουσική</option>
+          <option value="Tech">Τεχνολογία</option>
+          <option value="Sports">Αθλητισμός</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="search-row row-space">
+      <div class="input-group-search">
+        <label>Τοποθεσία / Πόλη</label>
+        <input type="text" [(ngModel)]="filters.location" placeholder="π.χ. Αθήνα" class="fixed-input">
+      </div>
+
+      <div class="input-group-search">
+        <label>Από Ημερομηνία και ώρα</label>
+        <input type="datetime-local" [(ngModel)]="filters.startDate" class="date-input">
+      </div>
+
+      <div class="input-group-search">
+        <label>Έως Ημερομηνία και ώρα</label>
+        <input type="datetime-local" [(ngModel)]="filters.endDate" class="date-input">
+      </div>
+
+      <div class="input-group-search">
+        <label>Μέγιστη Τιμή (€)</label>
+        <input 
+            type="text" 
+            [(ngModel)]="filters.maxPrice" 
+            (input)="validatePrice($event)" 
+            placeholder="π.χ. 20" 
+            class="price-input"
+        >
+        </div>
+    </div>
+  </div>
+
+  <div class="search-events-grid" *ngIf="events.length > 0; else noEvents">
+    <div class="search-event-card" *ngFor="let event of events">
+      <div class="search-card-header">
+        <span>{{ event.Title }}</span>
+        <span class="search-card-date">{{ event.StartDateTime | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="search-card-category">Είδος: {{ event.EventType || event.Category }}</div>
+      <button class="btn-details-trigger" (click)="viewDetails(event.EventID)">
+        Κράτηση / Λεπτομέρειες
+      </button>
+    </div>
+  </div>
+
+  <div class="search-pagination" *ngIf="events.length > 0">
+    <button class="btn-page-nav" [disabled]="page === 1" (click)="changePage(page - 1)">« Προηγούμενη</button>
+    <span>Σελίδα <strong>{{ page }}</strong> από {{ totalPages }}</span>
+    <button class="btn-page-nav" [disabled]="page === totalPages" (click)="changePage(page + 1)">Επόμενη »</button>
+  </div>
+
+  <ng-template #noEvents>
+    <div class="search-no-results">
+      Δεν βρέθηκαν εκδηλώσεις με τα συγκεκριμένα κριτήρια.
+    </div>
+  </ng-template>
+</div>

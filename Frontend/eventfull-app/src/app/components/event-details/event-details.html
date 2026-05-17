@@ -1,0 +1,37 @@
+<div class="details-page-container" *ngIf="event">
+  <div class="details-header">
+    <h2>{{ event.Title }}</h2>
+    <span class="badge-category">{{ event.Category }}</span>
+  </div>
+
+  <div class="details-content">
+    <div class="info-column">
+      <div class="info-card">
+        <h3> Περιγραφή</h3>
+        <p>{{ event.Description || 'Δεν υπάρχει διαθέσιμη περιγραφή.' }}</p>
+      </div>
+
+      <div class="info-card">
+        <h3> Πότε & Πού</h3>
+        <p><strong>Ημερομηνία:</strong> {{ event.StartDateTime | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p><strong>Χώρος:</strong> {{ event.Venue }}</p>
+        <p><strong>Πόλη:</strong> {{ event.City }}</p>
+      </div>
+
+      <div class="info-card">
+        <h3> Εισιτήρια</h3>
+        <p><strong>Τιμή:</strong> {{ event.Price ? event.Price + ' €' : 'Δωρεάν' }}</p>
+        <button class="btn-booking">Κράτηση Θέσης</button>
+      </div>
+    </div>
+
+    <div class="map-column">
+      <h3> Τοποθεσία στο χάρτη</h3>
+      <div id="map"></div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!event" class="loading-spinner">
+  Φόρτωση στοιχείων εκδήλωσης...
+</div>
