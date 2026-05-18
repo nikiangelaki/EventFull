@@ -114,6 +114,7 @@ class Message(Base):
     id = Column(Integer, primary_key=True, index=True)
     sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    is_read = Column(Boolean, default=False)        
     #apo Integer se string gia na tairiazei me ta ypoloipa event_id
     event_id = Column(String(50), ForeignKey("events.id"), nullable=True)
     content = Column(Text, nullable=False)
