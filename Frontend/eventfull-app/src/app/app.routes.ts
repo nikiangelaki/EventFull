@@ -6,17 +6,25 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { EventSearchComponent } from './components/event-search/event-search';
 import { EventDetailsComponent } from './components/event-details/event-details';
 import { UserMessagingComponent } from './components/user-messaging/user-messaging';
+import { HomeComponent } from './home/home.component'; 
 
 export const routes: Routes = [
-  // 1. Το σκέτο URL οδηγεί πλέον στη σελίδα καλωσορίσματος 
+  // 1. Το σκέτο URL οδηγεί στη σελίδα καλωσορίσματος (πριν το Login)
   { path: '', component: WelcomeComponent }, 
 
-  // 2. Οι υπόλοιπες σελίδες της εφαρμογής 
+  // 2. Οι σελίδες σύνδεσης & εγγραφής
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent }, 
-  { path: 'search', component: EventSearchComponent }, 
+
+  // 3. Η καθαρή Αρχική Σελίδα 
+  { path: 'home', component: HomeComponent }, 
+
+  // 4. Οι υπόλοιπες εσωτερικές σελίδες της εφαρμογής
+  { path: 'dashboard', component: DashboardComponent }, // Η Διαχείρισή σου
+  { path: 'search', component: EventSearchComponent }, // Η Αναζήτηση
   { path: 'event/:id', component: EventDetailsComponent },
   { path: 'messages', component: UserMessagingComponent },
+  
+  //Αν κάποιος γράψει λάθος URL, γυρνάει στην αρχή
   { path: '**', redirectTo: '' }
 ];

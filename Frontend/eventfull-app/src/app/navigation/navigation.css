@@ -1,19 +1,38 @@
+/* Όλο το μενού πλοήγησης */
 nav {
-    display: flex;             /* Ενεργοποιούμε το Flexbox */
-    justify-content: center;   /* Κεντράρει τα στοιχεία οριζόντια */
-    gap: 10px;                 /* Δίνει σταθερή απόσταση μεταξύ των links */
-    padding: 10px 0;        /* Λίγος χώρος πάνω-κάτω */
-    background-color: #f8f9fa; /* Ένα πολύ ελαφρύ γκρι για να ξεχωρίζει */
-    border-bottom: 1px solid #eee; /* Μια διακριτική γραμμή από κάτω */
+    background-color: #f8f9fa; /* Ένα απαλό γκρι-λευκό φόντο */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Μια διακριτική σκιά από κάτω */
 }
 
-nav a {
-    text-decoration: none;     /* Βγάζει την υπογράμμιση */
-    color: #007bff;            /* Το κλασικό μπλε των links */
-    font-weight: 500;          /* Λίγο πιο έντονα γράμματα */
+/* Η λίστα με τα κουμπιά */
+nav ul {
+    list-style-type: none; /* Διώχνει τις μαύρες τελείες */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Μαγεία: Βάζει τα στοιχεία το ένα ΔΙΠΛΑ στο άλλο */
+    justify-content: center; /* Κεντράρει όλο το μενού στην οθόνη */
+    gap: 20px; /* Δίνει ίδια και ομοιόμορφη απόσταση μεταξύ των κουμπιών */
 }
 
-nav a:hover {
-    text-decoration: underline; /* Υπογράμμιση μόνο όταν ακουμπάει το ποντίκι */
-    color: #0056b3;            /* Πιο σκούρο μπλε στο hover */
+/* Το κάθε link ξεχωριστά */
+nav ul li a {
+    text-decoration: none; /* Διώχνει την υπογράμμιση */
+    color: #007bff; /* Το κλασικό μπλε χρώμα */
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease; /* Ομαλό εφέ όταν περνάει το ποντίκι */
+}
+
+/* Όταν ο χρήστης περνάει το ποντίκι πάνω από ένα link (Hover) */
+nav ul li a:hover {
+    background-color: #e2e6ea;
+    color: #0056b3;
+}
+
+/* Το στυλ για τη σελίδα που είναι ήδη ενεργή (Active) */
+nav ul li a.active {
+    background-color: #007bff;
+    color: white !important;
 }

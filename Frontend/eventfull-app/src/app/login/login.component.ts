@@ -28,6 +28,7 @@ export class LoginComponent {
         next: (response: any) => {
           alert('Επιτυχής σύνδεση!');
           localStorage.setItem('access_token', response.access_token);
+          this.router.navigate(['/home']);
         },
         error: (err) => {
           alert('Λάθος όνομα χρήστη ή κωδικός!');

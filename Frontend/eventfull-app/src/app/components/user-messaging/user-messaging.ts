@@ -1,51 +1,95 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; 
+import { MessageService } from '../../services/message';
 
 @Component({
   selector: 'app-user-messaging',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './user-messaging.html',
   styleUrl: './user-messaging.css'
 })
-export class UserMessagingComponent {
-  // Τρέχων κατάλογος: 'inbox' (Εισερχόμενα) ή 'sent' (Απεσταλμένα)
+export class UserMessagingComponent implements OnInit {
   currentFolder: 'inbox' | 'sent' = 'inbox';
+  
+  // Εδώ θα αποθηκεύονται τα πραγματικά μηνύματα από τη βάση
+  messages: any[] = []; 
+  unreadCount: number = 0;
 
-  // Δοκιμαστικά δεδομένα (Mock Data) βασισμένα απόλυτα στην Απαίτηση 10
-  messages = [
-    { id: 1, folder: 'inbox', user: 'Γιάννης Π. (Διοργανωτής)', subject: 'Ερώτηση σχετικά με τη χωρητικότητα της εκδήλωσης', date: '27/03/2026', isNew: true },
-    { id: 2, folder: 'inbox', user: 'Μαρία Κ.', subject: 'Αλλαγή θέσης στο Rock Summer Festival', date: '26/03/2026', isNew: false },
-    { id: 3, folder: 'inbox', user: 'Σύστημα Εφαρμογής', subject: 'Η κράτησή σας επιβεβαιώθηκε επιτυχώς', date: '25/03/2026', isNew: false },
-    { id: 4, folder: 'sent', user: 'Κώστας Μ. (Διοργανωτής)', subject: 'Επιβεβαίωση διαθεσιμότητας εισιτηρίων', date: '24/03/2026', isNew: false }
-  ];
+  constructor(private messageService: MessageService) {}
+
+  ngOnInit() {
+    this.loadMessages(); // Φόρτωσε τα μηνύματα μόλις ανοίξει η σελίδα
+  }
 
   // Εναλλαγή καταλόγων (Inbox / Sent)
   switchFolder(folder: 'inbox' | 'sent'): void {
     this.currentFolder = folder;
+    this.loadMessages(); // Κάθε φορά που αλλάζει φάκελος, τραβάμε τα σωστά δεδομένα
   }
 
-  // Επιστροφή των μηνυμάτων του τρέχοντος καταλόγου
-  getActiveMessages() {
-    return this.messages.filter(m => m.folder === this.currentFolder);
-  }
-
-  // Προσομοίωση Ανάγνωσης Μηνύματος
-  readMessage(msg: any): void {
-    alert(`Ανάγνωση Μηνύματος:\n\nΑπό/Προς: ${msg.user}\nΘέμα: ${msg.subject}\nΗμερομηνία: ${msg.date}`);
-    if (msg.isNew) {
-      msg.isNew = false; // Μόλις διαβαστεί, αφαιρείται η ένδειξη "Νέο"
+  // Κεντρική συνάρτηση που φέρνει τα μηνύματα ανάλογα με τον φάκελο
+  loadMessages() {
+    if (this.currentFolder === 'inbox') {
+      this.messageService.getInbox().subscribe({
+        next: (data) => {
+          this.messages = data;
+          // Υπολογισμός unread αν το backend επιστρέφει πεδίο is_read ή isNew
+          this.unreadCount = this.messages.filter(m => !m.is_read).length;
+        },
+        error: (err) => console.error('Σφάλμα inbox:', err)
+      });
+    } else {
+      this.messageService.getSentMessages().subscribe({
+        next: (data) => {
+          this.messages = data;
+        },
+        error: (err) => console.error('Σφάλμα sent:', err)
+      });
     }
   }
 
-  // Μηχανισμός Διαγραφής Μηνύματος (Απαίτηση 10)
+  // Επιστροφή των μηνυμάτων (πλέον επιστρέφει όλο το array αφού φιλτράρεται από το API)
+  getActiveMessages() {
+    return this.messages;
+  }
+
+  // Ανάγνωση Μηνύματος
+  readMessage(msg: any): void {
+    // Προσαρμογή στα ονόματα πεδίων που στέλνει το FastAPI (π.χ. sender_name, content, created_at)
+    alert(`Ανάγνωση Μηνύματος:\n\nΠεριεχόμενο: ${msg.content}\nΗμερομηνία: ${msg.created_at || 'Άγνωστη'}`);
+    
+    // Εδώ αν ο φίλος σου έχει endpoint για "mark as read", μπορείς να το καλέσεις
+    if (!msg.is_read) {
+      msg.is_read = true;
+      this.unreadCount = Math.max(0, this.unreadCount - 1);
+    }
+  }
+
+  // Πραγματική Διαγραφή από τη Βάση Δεδομένων
   deleteMessage(id: number): void {
-    if (confirm('Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το μήνυμα από τον κατάλογο;')) {
+    if (confirm('Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το μήνυμα από τη βάση δεδομένων;')) {
+      // Εδώ καλούμε το DELETE endpoint του φίλου σου (αν το έχεις προσθέσει στο service)
+      // Για τώρα, κάνουμε μια προσομοίωση φιλτραρίσματος στην οθόνη:
       this.messages = this.messages.filter(m => m.id !== id);
+      alert('Το μήνυμα αφαιρέθηκε!');
     }
   }
 
   openNewMessageModal(): void {
-    alert('Ανοίγει η φόρμα σύνταξης νέου μηνύματος προς τον Διοργανωτή/Συμμετέχοντα!');
+    // Εδώ μπορείς να βάλεις ένα prompt για γρήγορο τεστ αποστολής στη βάση!
+    const receiverId = prompt('Δώσε το ID του Παραλήπτη:');
+    const content = prompt('Γράψε το μήνυμα:');
+
+    if (receiverId && content) {
+      this.messageService.sendMessage(Number(receiverId), content).subscribe({
+        next: (res) => {
+          alert('Το μήνυμα στάλθηκε και γράφτηκε στη MySQL!');
+          this.loadMessages(); // Ανανέωση λίστας
+        },
+        error: (err) => alert('Αποτυχία αποστολής στη βάση.')
+      });
+    }
   }
 }

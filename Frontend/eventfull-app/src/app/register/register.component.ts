@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,7 @@ import { AuthService } from '../auth';
 export class RegisterComponent {
   registerForm!: FormGroup;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.registerForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -63,6 +64,8 @@ export class RegisterComponent {
         next: (response) => {
           alert('Η εγγραφή ολοκληρώθηκε!');
           console.log(response);
+          this.router.navigate(['/home']);
+          
         },
         error: (err) => {
           alert('Σφάλμα σύνδεσης με τον server');
