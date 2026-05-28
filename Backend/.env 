@@ -1,0 +1,10 @@
+#Database Configuration
+DB_USER=niki_admin
+DB_PASSWORD=Niki123!
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=eventfull
+
+# Server Configuration
+DEBUG=True
+SECRET_KEY=niki12345

@@ -1,14 +1,12 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Boolean, Table,Text
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Boolean, Table, Text
 from sqlalchemy.orm import relationship
-import datetime
-
 from sqlalchemy.sql import func
-from app.database import Base
+import datetime
 
 # Παίρνουμε το Base από το database.py μας
 from app.database import Base
 
-# --- ΠΙΝΑΚΑΣ ΣΥΣΧΕΤΙΣΗΣ ΠΟΛΛΑ-ΠΡΟΣ-ΠΟΛΛΑ ---
+# --- ΠΙΝΑΚΑΣ ΣΥΣΧΕΤΙΣΗΣ ΠΟΛΛΑ-ΠΡΟΣ-ΠΟΛΛΑ (Events <-> Categories) ---
 event_category_association = Table(
     'event_has_category', Base.metadata,
     Column('event_id', String(50), ForeignKey('events.id'), primary_key=True),
@@ -44,6 +42,7 @@ class Category(Base):
     
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
+    
     events = relationship("Event", secondary=event_category_association, back_populates="categories")
 
 # --- 3. ΠΙΝΑΚΑΣ ΕΚΔΗΛΩΣΕΩΝ ---
@@ -70,6 +69,7 @@ class Event(Base):
     categories = relationship("Category", secondary=event_category_association, back_populates="events")
     ticket_types = relationship("TicketType", back_populates="event", cascade="all, delete-orphan")
     media = relationship("EventMedia", back_populates="event", cascade="all, delete-orphan")
+    bookings = relationship("Booking", back_populates="event") # ΠΡΟΣΘΗΚΗ: Διευκολύνει την ανάγνωση κρατήσεων ανά event
 
 # --- 4. ΠΙΝΑΚΑΣ ΠΟΛΥΜΕΣΩΝ ---
 class EventMedia(Base):
@@ -78,6 +78,7 @@ class EventMedia(Base):
     id = Column(Integer, primary_key=True)
     event_id = Column(String(50), ForeignKey('events.id'))
     photo_path = Column(String(255), nullable=False)
+    
     event = relationship("Event", back_populates="media")
 
 # --- 5. ΠΙΝΑΚΑΣ ΤΥΠΩΝ ΕΙΣΙΤΗΡΙΩΝ ---
@@ -90,6 +91,7 @@ class TicketType(Base):
     price = Column(Float, nullable=False)
     quantity = Column(Integer, nullable=False)
     available = Column(Integer, nullable=False)
+    
     event = relationship("Event", back_populates="ticket_types")
     bookings = relationship("Booking", back_populates="ticket_type")
 
@@ -99,13 +101,17 @@ class Booking(Base):
 
     id = Column(String(50), primary_key=True)
     attendee_id = Column(Integer, ForeignKey('users.id'))
-    time = Column(DateTime, default=datetime.datetime.utcnow)
+    event_id = Column(String(50), ForeignKey('events.id')) # ΠΡΟΣΘΗΚΗ: Άμεση σύνδεση με το Event!
     ticket_type_id = Column(String(50), ForeignKey('ticket_types.id'))
+    
+    time = Column(DateTime, default=datetime.datetime.utcnow)
     number_of_tickets = Column(Integer, nullable=False)
     total_cost = Column(Float, nullable=False)
     booking_status = Column(String(20), default="PENDING")
+    
     attendee = relationship("User", back_populates="bookings")
     ticket_type = relationship("TicketType", back_populates="bookings")
+    event = relationship("Event", back_populates="bookings") # ΠΡΟΣΘΗΚΗ: Σχέση με το Event
 
 # --- 7. ΠΙΝΑΚΑΣ ΜΗΝΥΜΑΤΩΝ ---
 class Message(Base):
@@ -115,7 +121,7 @@ class Message(Base):
     sender_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     receiver_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     is_read = Column(Boolean, default=False)        
-    #apo Integer se string gia na tairiazei me ta ypoloipa event_id
+    
     event_id = Column(String(50), ForeignKey("events.id"), nullable=True)
     content = Column(Text, nullable=False)
     timestamp = Column(DateTime(timezone=True), server_default=func.now())

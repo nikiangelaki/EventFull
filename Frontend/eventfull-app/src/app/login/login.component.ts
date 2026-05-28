@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { RouterLink, Router } from '@angular/router'; // Προστέθηκε το Router
-import { AuthService } from '../auth'; // Βεβαιωθείτε ότι το path είναι σωστό
+import { RouterLink, Router } from '@angular/router'; 
+import { AuthService } from '../auth'; 
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
- onLogin() {
+  onLogin() {
     if (this.loginForm.valid) {
       const username = this.loginForm.value.username!; 
       const password = this.loginForm.value.password!;
@@ -28,7 +28,13 @@ export class LoginComponent {
         next: (response: any) => {
           alert('Επιτυχής σύνδεση!');
           localStorage.setItem('access_token', response.access_token);
-          this.router.navigate(['/home']);
+          
+          localStorage.setItem('username', username);
+          if (username === 'admin') {
+            this.router.navigate(['/dashboard']); // Ο admin οδηγείται στη διαχείριση χρηστών
+          } else {
+            this.router.navigate(['/home']); // Οι απλοί χρήστες οδηγούνται στην αρχική
+          }
         },
         error: (err) => {
           alert('Λάθος όνομα χρήστη ή κωδικός!');

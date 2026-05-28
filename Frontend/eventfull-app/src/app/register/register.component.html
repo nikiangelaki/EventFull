@@ -86,6 +86,10 @@
       </div>
     </div>
 
+    <div *ngIf="errorMessage" style="background-color: #f8d7da; color: #721c24; padding: 12px; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 20px; font-weight: bold; text-align: center;">
+      {{ errorMessage }}
+    </div>
+    
     <button type="submit" [disabled]="registerForm.invalid">Εγγραφή</button>
   </form>
 </div>

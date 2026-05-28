@@ -7,6 +7,7 @@ import { EventSearchComponent } from './components/event-search/event-search';
 import { EventDetailsComponent } from './components/event-details/event-details';
 import { UserMessagingComponent } from './components/user-messaging/user-messaging';
 import { HomeComponent } from './home/home.component'; 
+import { RegisterPendingComponent } from './components/register-pending/register-pending.component';
 
 export const routes: Routes = [
   // 1. Το σκέτο URL οδηγεί στη σελίδα καλωσορίσματος (πριν το Login)
@@ -15,6 +16,7 @@ export const routes: Routes = [
   // 2. Οι σελίδες σύνδεσης & εγγραφής
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'register-pending', component: RegisterPendingComponent },
 
   // 3. Η καθαρή Αρχική Σελίδα 
   { path: 'home', component: HomeComponent }, 

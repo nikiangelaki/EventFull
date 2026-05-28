@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { AuthService } from '../auth';
 import { Router } from '@angular/router';
-
+import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common'; // Απαραίτητο για το *ngIf στο html
+import { AuthService } from '../auth';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule], // Σιγουρέψου ότι υπάρχουν αυτά αν είναι standalone
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   registerForm!: FormGroup;
+  errorMessage: string | null = null; // Προσθέτουμε τη μεταβλητή για το σφάλμα
 
   constructor(private authService: AuthService, private router: Router) {
     this.registerForm = new FormGroup({
@@ -30,7 +29,6 @@ export class RegisterComponent {
     }, { validators: this.passwordMatchValidator }); 
   }
 
-
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');
@@ -41,38 +39,39 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      this.errorMessage = null; //Καθαρίζουμε παλιά σφάλματα πριν την προσπάθεια
       
-      // 1. Παίρνουμε τις τιμές από τη φόρμα
       const formValues = this.registerForm.value;
 
-      // 2. Φτιάχνουμε το "πακέτο" ακριβώς όπως το περιμένει το FastAPI (UserCreate)
       const payloadData = {
         username: formValues.username,
         email: formValues.email,
         password: formValues.password,
         role: formValues.role,
-        first_name: formValues.name,       // Μετάφραση: name -> first_name
-        last_name: formValues.lastname,    // Μετάφραση: lastname -> last_name
-        phone: formValues.telephone,       // Μετάφραση: telephone -> phone
+        first_name: formValues.name,       
+        last_name: formValues.lastname,    
+        phone: formValues.telephone,       
         address: formValues.address,
         afm: formValues.afm
-        // Το confirmPassword το αγνοούμε εντελώς εδώ, δεν το στέλνουμε στο backend!
       };
 
-      // 3. Στέλνουμε το σωστό πακέτο (payloadData) αντί για όλη τη φόρμα
       this.authService.register(payloadData).subscribe({
-        next: (response) => {
-          alert('Η εγγραφή ολοκληρώθηκε!');
-          console.log(response);
-          this.router.navigate(['/home']);
-          
+        next: (response: any) => {
+          console.log('Εγγραφή επιτυχής:', response);
+          // Οδηγούμε τον χρήστη στη σελίδα αναμονής έγκρισης
+          this.router.navigate(['/register-pending']);
         },
-        error: (err) => {
-          alert('Σφάλμα σύνδεσης με τον server');
+        error: (err: any) => {
           console.error(err);
+          
+          
+          if (err.status === 400 || err.error?.detail?.includes('username') || err.error?.detail?.includes('already registered')) {
+            this.errorMessage = 'Το όνομα χρήστη (Username) ή το Email χρησιμοποιείται ήδη. Παρακαλώ εισάγετε ένα καινούργιο.';
+          } else {
+            this.errorMessage = 'Παρουσιάστηκε σφάλμα σύνδεσης με τον server. Δοκιμάστε ξανά.';
+          }
         }
       });
     }
   }
-
 }
