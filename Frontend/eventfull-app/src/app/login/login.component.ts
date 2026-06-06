@@ -26,19 +26,29 @@ export class LoginComponent {
 
       this.authService.login(username, password).subscribe({
         next: (response: any) => {
-          alert('Επιτυχής σύνδεση!');
           localStorage.setItem('access_token', response.access_token);
           
-          localStorage.setItem('username', username);
-          if (username === 'admin') {
-            this.router.navigate(['/dashboard']); // Ο admin οδηγείται στη διαχείριση χρηστών
-          } else {
-            this.router.navigate(['/home']); // Οι απλοί χρήστες οδηγούνται στην αρχική
-          }
+          // Μόλις συνδεθεί, τραβάμε τα στοιχεία του χρήστη για να δούμε τον ρόλο του
+          this.authService.getCurrentUser().subscribe({
+            next: (user: any) => {
+              localStorage.setItem('role', user.role); // Αποθηκεύουμε τον ρόλο για μελλοντική χρήση
+              
+              // Τώρα η δρομολόγηση γίνεται βάσει ρόλου!
+              if (user.role === 'admin') {
+                this.router.navigate(['/dashboard']);
+              } else if (user.role === 'organizer') {
+                this.router.navigate(['/organizer-dashboard']);
+              } else {
+                this.router.navigate(['/home']);
+              }
+            },
+            error: (err) => {
+              alert('Σφάλμα κατά την ανάκτηση στοιχείων χρήστη.');
+            }
+          });
         },
         error: (err) => {
           alert('Λάθος όνομα χρήστη ή κωδικός!');
-          console.error(err);
         }
       });
     }

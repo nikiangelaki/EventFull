@@ -1,0 +1,27 @@
+<div class="dashboard-container">
+  <h1>Πίνακας Ελέγχου Διοργανωτή</h1>
+  
+  <button routerLink="/create-event" class="btn-create">+ Δημιουργία Νέας Εκδήλωσης</button>
+
+  <table class="events-table">
+    <thead>
+      <tr>
+        <th>Τίτλος</th>
+        <th>Κατάσταση</th>
+        <th>Κρατήσεις</th>
+        <th>Ενέργειες</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let event of myEvents">
+        <td>{{ event.title }}</td>
+        <td>{{ event.status }}</td>
+        <td>{{ event.total_bookings_count }}</td>
+        <td>
+          <button>Επεξεργασία</button>
+          <button (click)="cancelEvent(event.event_id)">Ακύρωση</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,38 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="event-form">
+  <h2>Δημιουργία Νέας Εκδήλωσης</h2>
+  
+  <div class="form-grid">
+    <div><label>Τίτλος</label><input formControlName="title" type="text" /></div>
+    <div><label>Τύπος</label><input formControlName="eventType" type="text" /></div>
+    <div><label>Κατηγορίες (με ,)</label><input formControlName="category" type="text" /></div>
+    <div><label>Χωρητικότητα</label><input formControlName="capacity" type="text" /></div>
+  </div>
+
+  <div class="form-grid">
+    <div><label>Χώρος</label><input formControlName="venue" type="text" /></div>
+    <div><label>Διεύθυνση</label><input formControlName="address" type="text" /></div>
+    <div><label>Πόλη</label><input formControlName="city" type="text" /></div>
+    <div><label>Χώρα</label><input formControlName="country" type="text" /></div>
+  </div>
+
+  <div id="map"></div>
+
+  <label>Περιγραφή</label>
+  <textarea formControlName="description"></textarea>
+
+  <label>URLs Φωτογραφιών (ένα ανά γραμμή - προαιρετικό)</label>
+  <textarea formControlName="mediaUrls" placeholder="https://image1.jpg&#10;https://image2.jpg"></textarea>
+
+  <h3>Εισιτήρια</h3>
+  <button type="button" class="btn-add-ticket" (click)="addTicket()">+ Προσθήκη Τύπου Εισιτηρίου</button>
+  
+  <div *ngFor="let t of tickets.controls; let i = index" [formGroupName]="i" class="ticket-card">
+    <div class="form-grid">
+      <div><label>Όνομα</label><input formControlName="name" type="text" /></div>
+      <div><label>Τιμή</label><input formControlName="price" type="text" /></div>
+      <div><label>Πλήθος</label><input formControlName="quantity" type="text" /></div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn-submit">Δημιουργία Εκδήλωσης</button>
+</form>

@@ -147,7 +147,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Το email χρησιμοποιείται ήδη.")
-    
+    #PROSTHESE KAI GIA USERNAME!!!!!!!
     hashed_pwd = get_password_hash(user.password)
     
     new_user = User(
@@ -187,6 +187,13 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
     return {"access_token": access_token, "token_type": "bearer"}
 
 
+@app.get("/users/me")
+def get_me(current_user: User = Depends(get_current_user)):
+    """
+    Επιστρέφει τα στοιχεία του συνδεδεμένου χρήστη.
+    Το 'current_user' προέρχεται από το get_current_user που ήδη έχεις.
+    """
+    return current_user
 
 # --- EVENT ENDPOINTS ---
 
@@ -197,8 +204,7 @@ def create_event(
     current_user: User = Depends(get_current_user)
 ):
     """
-    (α') Δημιουργία νέας εκδήλωσης και ταυτόχρονη δημιουργία των τύπων εισιτηρίων.
-    Επιτρέπεται ΜΟΝΟ στους Διοργανωτές.
+    Δημιουργία νέας εκδήλωσης, έλεγχος χωρητικότητας και αποθήκευση.
     """
     if current_user.role != "organizer":
         raise HTTPException(
@@ -206,10 +212,18 @@ def create_event(
             detail="Μόνο οι Διοργανωτές μπορούν να δημιουργήσουν εκδηλώσεις."
         )
     
-    # 1. Παραγωγή μοναδικού ID για την εκδήλωση (π.χ. "EV-8F4A2B")
+    # 1. ΕΛΕΓΧΟΣ ΧΩΡΗΤΙΚΟΤΗΤΑΣ (Business Rule από το DTD)
+    total_requested = sum(ticket.quantity for ticket in event_data.tickets)
+    if total_requested > event_data.capacity:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Το άθροισμα των εισιτηρίων ({total_requested}) υπερβαίνει τη συνολική χωρητικότητα ({event_data.capacity})."
+        )
+    
+    # 2. Παραγωγή μοναδικού ID
     new_event_id = f"EV-{uuid.uuid4().hex[:8].upper()}"
     
-    # 2. Δημιουργία της εκδήλωσης (Αρχικά ως DRAFT)
+    # 3. Δημιουργία της εκδήλωσης
     new_event = Event(
         id=new_event_id,
         organizer_id=current_user.id,
@@ -229,18 +243,26 @@ def create_event(
     )
     db.add(new_event)
     
-    # 3. Δημιουργία των Τύπων Εισιτηρίων που έστειλε το Frontend
+    # 4. Αποθήκευση Τύπων Εισιτηρίων
     for ticket in event_data.tickets:
-        new_ticket_id = f"TK-{uuid.uuid4().hex[:8].upper()}"
         new_ticket = TicketType(
-            id=new_ticket_id,
+            id=f"TK-{uuid.uuid4().hex[:8].upper()}",
             event_id=new_event_id,
             name=ticket.name,
             price=ticket.price,
             quantity=ticket.quantity,
-            available=ticket.quantity # Αρχικά, όλα είναι διαθέσιμα
+            available=ticket.quantity 
         )
         db.add(new_ticket)
+    
+    # 5. Διαχείριση Κατηγοριών (Αν το event_data.categories είναι λίστα)
+    if hasattr(event_data, 'categories') and event_data.categories:
+        for cat_name in event_data.categories:
+            new_cat = EventCategory(
+                event_id=new_event_id,
+                category_name=cat_name
+            )
+            db.add(new_cat)
     
     db.commit()
     db.refresh(new_event)

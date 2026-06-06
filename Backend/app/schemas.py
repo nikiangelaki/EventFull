@@ -31,6 +31,7 @@ class EventCreate(BaseModel):
     start_datetime: datetime
     end_datetime: datetime
     capacity: int
+    categories: List[str]
     description: Optional[str] = None
     
     # ΠΡΟΣΟΧΗ: Πλέον παίρνουμε μια ΛΙΣΤΑ με τους τύπους εισιτηρίων!

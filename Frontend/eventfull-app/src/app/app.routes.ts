@@ -8,6 +8,8 @@ import { EventDetailsComponent } from './components/event-details/event-details'
 import { UserMessagingComponent } from './components/user-messaging/user-messaging';
 import { HomeComponent } from './home/home.component'; 
 import { RegisterPendingComponent } from './components/register-pending/register-pending.component';
+import { OrganizerDashboardComponent } from './components/organizer-dashboard/organizer-dashboard.component';
+import { CreateEventComponent } from './components/create-event/create-event.component';
 
 export const routes: Routes = [
   // 1. Το σκέτο URL οδηγεί στη σελίδα καλωσορίσματος (πριν το Login)
@@ -26,7 +28,10 @@ export const routes: Routes = [
   { path: 'search', component: EventSearchComponent }, // Η Αναζήτηση
   { path: 'event/:id', component: EventDetailsComponent },
   { path: 'messages', component: UserMessagingComponent },
-  
+  { path: 'organizer-dashboard', component: OrganizerDashboardComponent },
+  { path: 'create-event', component: CreateEventComponent },
   //Αν κάποιος γράψει λάθος URL, γυρνάει στην αρχή
   { path: '**', redirectTo: '' }
+
+ 
 ];

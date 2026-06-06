@@ -1,0 +1,8 @@
+.event-form { max-width: 900px; margin: 20px auto; padding: 25px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.form-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 15px; }
+label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+input, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+#map { height: 300px; width: 100%; margin: 20px 0; border: 2px solid #ddd; border-radius: 8px; }
+.ticket-card { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #eee; }
+.btn-add-ticket { width: 100%; padding: 12px; background: #e9ecef; border: 2px dashed #adb5bd; border-radius: 6px; cursor: pointer; margin-bottom: 20px; }
+.btn-submit { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }

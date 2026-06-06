@@ -62,13 +62,25 @@ export class RegisterComponent {
           this.router.navigate(['/register-pending']);
         },
         error: (err: any) => {
-          console.error(err);
+          console.error('Σφάλμα εγγραφής:', err);
           
-          
-          if (err.status === 400 || err.error?.detail?.includes('username') || err.error?.detail?.includes('already registered')) {
-            this.errorMessage = 'Το όνομα χρήστη (Username) ή το Email χρησιμοποιείται ήδη. Παρακαλώ εισάγετε ένα καινούργιο.';
-          } else {
-            this.errorMessage = 'Παρουσιάστηκε σφάλμα σύνδεσης με τον server. Δοκιμάστε ξανά.';
+          // Παίρνουμε το detail που στέλνει το FastAPI
+          const detail = err.error?.detail;
+
+          if (err.status === 400) {
+            if (detail === 'username_exists') {
+              this.errorMessage = 'Το όνομα χρήστη (Username) χρησιμοποιείται ήδη. Παρακαλώ επιλέξτε ένα άλλο.';
+            } 
+            else if (detail === 'email_exists') {
+              this.errorMessage = 'Το Email που δώσατε χρησιμοποιείται ήδη από άλλον χρήστη.';
+            } 
+            else {
+              this.errorMessage = 'Σφάλμα στα στοιχεία εγγραφής. Παρακαλώ ελέγξτε τα πεδία σας.';
+            }
+          } 
+          else {
+            // (NA TO BGALOYME) Αν δεν είναι 400, σημαίνει πρόβλημα server ή δικτύου
+            this.errorMessage = 'Παρουσιάστηκε σφάλμα σύνδεσης με τον server';
           }
         }
       });
